@@ -46,6 +46,7 @@ public class StudentRepository {
     }
 
     public Student getById(int id) throws SQLException {
+
         Student student = null;
         Connection connection = dataSource.getConnection();
         connection.setReadOnly(true);
@@ -126,6 +127,7 @@ public class StudentRepository {
     }
 
     public List<Student> FindByNameAndSurname(String name, String surname) throws SQLException {
+
         List<Student> studentList1 = new ArrayList<>();
         Connection connection = dataSource.getConnection();
         PreparedStatement preparedStatement =
@@ -156,7 +158,6 @@ public class StudentRepository {
             preparedStatement.setInt(1, from.getBalance() - amount);
             preparedStatement.setInt(2, from.getId());
             preparedStatement.executeUpdate();
-
 
 
             preparedStatement = connection.prepareStatement("UPDATE  student set  balance=? where id =?");

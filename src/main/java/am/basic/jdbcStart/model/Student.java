@@ -8,6 +8,7 @@ public class Student {
      private String surname;
      private int balance;
 
+
     public Student() {
         this.id = id;
         this.name = name;

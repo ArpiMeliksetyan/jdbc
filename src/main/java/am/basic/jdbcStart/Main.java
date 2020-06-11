@@ -22,7 +22,10 @@ public class Main {
 //        Student student1 = studentRepository.getById(2);
 //        studentRepository.transfer(student, student1, 10);
 
+        Student student = new Student();
 
+
+        System.out.println(studentRepository.getAll());
 
 
 //        UserRepository userRepository = new UserRepository(new DataSource());
