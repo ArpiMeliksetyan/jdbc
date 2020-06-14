@@ -1,8 +1,6 @@
-package am.basic.jdbcStart.repository;
+package am.basic.jdbcStart.repository.Impl.jdbc;
 
 import am.basic.jdbcStart.model.Card;
-import am.basic.jdbcStart.model.Student;
-import am.basic.jdbcStart.model.User;
 import am.basic.jdbcStart.util.DataSource;
 
 import java.sql.Connection;

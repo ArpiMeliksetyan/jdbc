@@ -3,7 +3,7 @@ package am.basic.jdbcStart.controller;
 import am.basic.jdbcStart.model.User;
 import am.basic.jdbcStart.model.exceptions.DuplicateDataException;
 import am.basic.jdbcStart.model.exceptions.InternalServerException;
-import am.basic.jdbcStart.repository.UserRepository;
+import am.basic.jdbcStart.repository.Impl.Impl.jdbc.jdbc.UserRepository;
 import am.basic.jdbcStart.service.UserService;
 import am.basic.jdbcStart.util.DataSource;
 

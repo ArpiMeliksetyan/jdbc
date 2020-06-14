@@ -37,6 +37,7 @@
     <input type="submit" name="submit"><br>
 </form>
 
+<jsp:include page="/secure/comments.jsp"/>
 
 </body>
 </html>

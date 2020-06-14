@@ -1,13 +1,11 @@
-package am.basic.jdbcStart.repository;
+package am.basic.jdbcStart.repository.Impl.jdbc;
 
 import am.basic.jdbcStart.model.Student;
 import am.basic.jdbcStart.util.DataSource;
-import com.sun.corba.se.spi.presentation.rmi.PresentationManager;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
 
 public class StudentRepository {
 

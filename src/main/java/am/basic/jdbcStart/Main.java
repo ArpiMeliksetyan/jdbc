@@ -1,17 +1,10 @@
 package am.basic.jdbcStart;
 
 import am.basic.jdbcStart.model.Student;
-import am.basic.jdbcStart.model.User;
-import am.basic.jdbcStart.repository.StudentRepository;
-import am.basic.jdbcStart.repository.UserRepository;
+import am.basic.jdbcStart.repository.Impl.Impl.jdbc.jdbc.StudentRepository;
 import am.basic.jdbcStart.util.DataSource;
-import com.sun.org.apache.bcel.internal.generic.Select;
 
 import java.sql.*;
-import java.util.List;
-import java.util.Scanner;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class Main {
     public static void main(String[] args) throws SQLException, InterruptedException {
@@ -28,7 +21,7 @@ public class Main {
         System.out.println(studentRepository.getAll());
 
 
-//        UserRepository userRepository = new UserRepository(new DataSource());
+//        UserRepositoryJdbcImpl userRepository = new UserRepositoryJdbcImpl(new DataSource());
 
 
 //        Student student = studentRepository.getById(5);

@@ -21,4 +21,8 @@ public interface ParameterKeys {
     String REMEMBER_TOKEN_COOKIE_KEY = "remember_token";
 
     String REMEMBER_ME_PARAM_KEY = "remember_me";
+
+    String DESCRIPTION_PARAM_KEY = "description";
+
+    String ID_PARAM_KEY = "id";
 }

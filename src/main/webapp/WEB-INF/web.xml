@@ -89,6 +89,27 @@
         <url-pattern>/secure/*</url-pattern>
     </filter-mapping>
 
+    <servlet>
+        <servlet-name>AddCommentServlet</servlet-name>
+        <servlet-class>am.basic.jdbcStart.controller.AddCommentServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>AddCommentServlet</servlet-name>
+        <url-pattern>/secure/add-comment</url-pattern>
+    </servlet-mapping>
+
+
+    <servlet>
+        <servlet-name>DeleteCommentServlet</servlet-name>
+        <servlet-class>am.basic.jdbcStart.controller.DeleteCommentServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>DeleteCommentServlet</servlet-name>
+        <url-pattern>/secure/delete-comment</url-pattern>
+    </servlet-mapping>
+
 
     <filter>
         <filter-name>DebugFilter</filter-name>

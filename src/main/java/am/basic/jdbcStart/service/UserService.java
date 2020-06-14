@@ -2,6 +2,7 @@ package am.basic.jdbcStart.service;
 
 import am.basic.jdbcStart.model.User;
 import am.basic.jdbcStart.model.exceptions.*;
+import am.basic.jdbcStart.repository.Impl.jdbc.UserRepositoryJdbcImpl;
 import am.basic.jdbcStart.repository.UserRepository;
 import am.basic.jdbcStart.util.DataSource;
 import am.basic.jdbcStart.util.encoder.Generator;
@@ -13,7 +14,7 @@ import static am.basic.jdbcStart.util.constants.Messages.*;
 
 public class UserService {
 
-    private UserRepository userRepository = new UserRepository(new DataSource());
+    private UserRepository userRepository = new UserRepositoryJdbcImpl(new DataSource());
 
     public void register(User user) throws DuplicateDataException, InternalServerException {
 

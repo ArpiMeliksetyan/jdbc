@@ -1,15 +1,21 @@
 package am.basic.jdbcStart.model;
 
+import javax.persistence.*;
 import java.util.Objects;
 
+@Entity
+@Table(name = "user")
 public class User {
-
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String name;
     private String surname;
+    @Column(name = "username", nullable = false, unique = true)
     private String username;
     private String password;
     private String code;
+    @Column(name = "status", nullable = false)
     private int status;
 
     public int getId() {
