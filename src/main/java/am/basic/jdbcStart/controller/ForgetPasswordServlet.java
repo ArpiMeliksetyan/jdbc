@@ -3,6 +3,7 @@ package am.basic.jdbcStart.controller;
 import am.basic.jdbcStart.model.exceptions.InternalServerException;
 import am.basic.jdbcStart.model.exceptions.InvalidParametersException;
 import am.basic.jdbcStart.model.exceptions.NotFoundException;
+import am.basic.jdbcStart.service.ServiceFactory;
 import am.basic.jdbcStart.service.UserService;
 
 import javax.servlet.ServletException;
@@ -17,7 +18,8 @@ import static am.basic.jdbcStart.util.constants.ParameterKeys.MESSAGE_ATTRIBUTE_
 import static am.basic.jdbcStart.util.constants.ParameterKeys.USERNAME_PARAM_KEY;
 
 public class ForgetPasswordServlet extends HttpServlet {
-    private UserService userService = new UserService();
+
+    private UserService userService = ServiceFactory.getUserService();
 
     public void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
@@ -31,7 +33,7 @@ public class ForgetPasswordServlet extends HttpServlet {
             request.setAttribute(USERNAME_PARAM_KEY,username);
             request.getRequestDispatcher(RECOVER_PASSWORD_PAGE).forward(request,response);
 
-        } catch (InvalidParametersException | NotFoundException | InternalServerException e) {
+        } catch (InvalidParametersException | NotFoundException e) {
             request.setAttribute(MESSAGE_ATTRIBUTE_KEY, e.getMessage());
             request.getRequestDispatcher(FORGET_PASSWORD_PAGE).forward(request,response);
 

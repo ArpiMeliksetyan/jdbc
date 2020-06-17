@@ -1,7 +1,11 @@
 package am.basic.jdbcStart.controller;
 
 import am.basic.jdbcStart.model.User;
-import am.basic.jdbcStart.model.exceptions.*;
+import am.basic.jdbcStart.model.exceptions.AccessDeniedException;
+import am.basic.jdbcStart.model.exceptions.InvalidParametersException;
+import am.basic.jdbcStart.model.exceptions.NotFoundException;
+import am.basic.jdbcStart.model.exceptions.UnauthorizedException;
+import am.basic.jdbcStart.service.ServiceFactory;
 import am.basic.jdbcStart.service.UserService;
 import am.basic.jdbcStart.util.PasswordValidator;
 
@@ -10,20 +14,16 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.nio.file.AccessDeniedException;
 
 import static am.basic.jdbcStart.util.constants.Messages.*;
 import static am.basic.jdbcStart.util.constants.Pages.HOME_PAGE;
 import static am.basic.jdbcStart.util.constants.Pages.INDEX_PAGE;
 import static am.basic.jdbcStart.util.constants.ParameterKeys.*;
-import static am.basic.jdbcStart.util.constants.ParameterKeys.MESSAGE_ATTRIBUTE_KEY;
+
 
 public class ChangePasswordServlet extends HttpServlet {
 
-
-    private UserService userService = new UserService();
-//    ArpiMeliksetyan
-//    asa
+    private UserService userService = ServiceFactory.getUserService();
 
 
     public void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -50,7 +50,7 @@ public class ChangePasswordServlet extends HttpServlet {
         } catch (UnauthorizedException e) {
             request.setAttribute(MESSAGE_ATTRIBUTE_KEY, e.getMessage());
             request.getRequestDispatcher(INDEX_PAGE).forward(request, response);
-        } catch (NotFoundException | InternalServerException | InvalidParametersException | AccessDeniedException e) {
+        } catch (NotFoundException | InvalidParametersException | AccessDeniedException e) {
             request.setAttribute(MESSAGE_ATTRIBUTE_KEY, e.getMessage());
             request.getRequestDispatcher(HOME_PAGE).forward(request, response);
         }

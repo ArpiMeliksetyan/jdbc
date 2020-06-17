@@ -2,26 +2,26 @@ package am.basic.jdbcStart.repository;
 
 import am.basic.jdbcStart.model.User;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.List;
 
 public interface UserRepository {
-    void update(User user) throws SQLException;
 
-    User getById(int id) throws SQLException;
 
-    User getByUsernameAndPassword(String username, String password) throws SQLException;
+    void update(User user) ;
 
-    void add(User user) throws SQLException;
+    User getById(int id) ;
 
-    void delete(int id) throws SQLException;
+    User getByUsernameAndPassword(String username, String password)  ;
 
-    List<User> getAll() throws SQLException;
+    void add(User user)  ;
 
-    User getByNameAndSurname(String name, String surname) throws SQLException;
+    void delete(User user)  ;
 
-    List<User> FindByNameAndSurname(String name, String surname) throws SQLException;
+    List<User> getAll()  ;
 
-    User getByUsername(String username) throws SQLException;
+    List<User> FindByNameAndSurname(String name, String surname)  ;
+
+    User getByUsername(String username)  ;
+
+    List<User> findByName(String name);
 }

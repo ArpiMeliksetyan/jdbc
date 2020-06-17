@@ -5,6 +5,7 @@ import am.basic.jdbcStart.model.exceptions.InternalServerException;
 import am.basic.jdbcStart.model.exceptions.InvalidParametersException;
 import am.basic.jdbcStart.model.exceptions.NotFoundException;
 import am.basic.jdbcStart.model.exceptions.UnverifiedException;
+import am.basic.jdbcStart.service.ServiceFactory;
 import am.basic.jdbcStart.service.UserService;
 import am.basic.jdbcStart.util.PasswordValidator;
 import am.basic.jdbcStart.util.encoder.Encryptоr;
@@ -19,7 +20,7 @@ import static am.basic.jdbcStart.util.constants.ParameterKeys.*;
 
 public class LoginServlet extends HttpServlet {
 
-    private UserService userService = new UserService();
+    private UserService userService = ServiceFactory.getUserService();
 
     public void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
@@ -49,7 +50,7 @@ public class LoginServlet extends HttpServlet {
             request.setAttribute(MESSAGE_ATTRIBUTE_KEY, e.getMessage());
             request.setAttribute(USERNAME_PARAM_KEY, username);
             request.getRequestDispatcher(VERIFICATION_PAGE).forward(request, response);
-        } catch (NotFoundException | InternalServerException | InvalidParametersException e) {
+        } catch (NotFoundException | InvalidParametersException e) {
             request.setAttribute(MESSAGE_ATTRIBUTE_KEY, e.getMessage());
             request.getRequestDispatcher(INDEX_PAGE).forward(request, response);
         } catch (Exception exception) {

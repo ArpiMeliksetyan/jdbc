@@ -10,5 +10,5 @@ public interface CommentRepository {
 
     void save(Comment comment) throws SQLException;
 
-    void delete(int id) throws SQLException;
+    void delete(Comment comment) throws SQLException;
 }

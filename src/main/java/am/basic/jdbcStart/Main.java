@@ -1,24 +1,36 @@
 package am.basic.jdbcStart;
 
-import am.basic.jdbcStart.model.Student;
-import am.basic.jdbcStart.repository.Impl.Impl.jdbc.jdbc.StudentRepository;
-import am.basic.jdbcStart.util.DataSource;
+import am.basic.jdbcStart.model.Comment;
+
+import am.basic.jdbcStart.repository.CommentRepository;
+import am.basic.jdbcStart.repository.Impl.jpa.CommentRepositoryJpaImpl;
 
 import java.sql.*;
 
 public class Main {
     public static void main(String[] args) throws SQLException, InterruptedException {
 
-        StudentRepository studentRepository = new StudentRepository(new DataSource());
+//        UserRepository userRepository = new UserRepositoryJpaImpl();
+//        User user = new User();
+//        user.setPassword("47");
+//        userRepository.add(user);
+
+        CommentRepository commentRepository = new CommentRepositoryJpaImpl();
+        Comment comment = new Comment();
+//        commentRepository.delete();
+
+
+
+//        StudentRepositoryJdbcImpl studentRepository = new StudentRepositoryJdbcImpl(new DataSource());
 
 //        Student student = studentRepository.getById(1);
 //        Student student1 = studentRepository.getById(2);
 //        studentRepository.transfer(student, student1, 10);
 
-        Student student = new Student();
-
-
-        System.out.println(studentRepository.getAll());
+//        Student student = new Student();
+//
+//
+//        System.out.println(studentRepository.getAll());
 
 
 //        UserRepositoryJdbcImpl userRepository = new UserRepositoryJdbcImpl(new DataSource());

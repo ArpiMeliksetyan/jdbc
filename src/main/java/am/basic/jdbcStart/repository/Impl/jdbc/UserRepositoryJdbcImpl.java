@@ -1,8 +1,7 @@
 package am.basic.jdbcStart.repository.Impl.jdbc;
-
 import am.basic.jdbcStart.model.User;
+import am.basic.jdbcStart.model.exceptions.DatabaseException;
 import am.basic.jdbcStart.util.DataSource;
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -19,163 +18,221 @@ public class UserRepositoryJdbcImpl implements am.basic.jdbcStart.repository.Use
     }
 
     @Override
-    public void update(User user) throws SQLException {
-        Connection connection = dataSource.getConnection();
-        PreparedStatement preparedStatement = connection.prepareStatement("UPDATE  USER  SET name= ?, surname=?, username=?, password=?, code=?, status=? where id=?");
-        preparedStatement.setString(1, user.getName());
-        preparedStatement.setString(2, user.getSurname());
-        preparedStatement.setString(3, user.getUsername());
-        preparedStatement.setString(4, user.getPassword());
-        preparedStatement.setString(5, user.getCode());
-        preparedStatement.setInt(6, user.getStatus());
-        preparedStatement.setInt(7, user.getId());
+    public void update(User user){
+        try {
+            Connection connection = dataSource.getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement("UPDATE  USER  SET name= ?, surname=?, username=?, password=?, code=?, status=? where id=?");
+            preparedStatement.setString(1, user.getName());
+            preparedStatement.setString(2, user.getSurname());
+            preparedStatement.setString(3, user.getUsername());
+            preparedStatement.setString(4, user.getPassword());
+            preparedStatement.setString(5, user.getCode());
+            preparedStatement.setInt(6, user.getStatus());
+            preparedStatement.setInt(7, user.getId());
 
-        int result = preparedStatement.executeUpdate();
-        System.out.println("result = " + result);
+            int result = preparedStatement.executeUpdate();
+            System.out.println("result = " + result);
+        } catch (Exception ex) {
+            throw new DatabaseException(ex);
+        }
+
     }
 
     @Override
-    public User getById(int id) throws SQLException {
-        User user = null;
-        Connection connection = dataSource.getConnection();
-        PreparedStatement preparedStatement = connection.prepareStatement("Select * from user where id =?");
-        preparedStatement.setInt(1, id);
-
-        ResultSet resultSet = preparedStatement.executeQuery();
-        if (resultSet.next()) {
-            user = fromResulSet(resultSet);
+    public User getById(int id) {
+        try {
+            User user = null;
+            Connection connection = dataSource.getConnection();
+            PreparedStatement statement = connection.prepareStatement("Select * FROM user where id = ?");
+            statement.setInt(1, id);
+            ResultSet resultSet = statement.executeQuery();
+            if (resultSet.next()) {
+                user = fromResultSet(resultSet);
+            }
+            resultSet.close();
+            statement.close();
+            return user;
+        } catch (Exception ex) {
+            throw new DatabaseException(ex);
         }
-        resultSet.close();
-        preparedStatement.close();
-        return user;
     }
+
     @Override
-    public User getByUsernameAndPassword(String username, String password) throws SQLException {
-        User user = null;
-        Connection connection = dataSource.getConnection();
-        PreparedStatement preparedStatement = connection.prepareStatement("Select * from user where username =? and password = ?");
-        preparedStatement.setString(1, username);
-        preparedStatement.setString(2, password);
+    public User getByUsernameAndPassword(String username, String password){
+        try {
+            User user = null;
+            Connection connection = dataSource.getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement("Select * from user where username =? and password = ?");
+            preparedStatement.setString(1, username);
+            preparedStatement.setString(2, password);
 
-        ResultSet resultSet = preparedStatement.executeQuery();
-        if (resultSet.next()) {
-            user = fromResulSet(resultSet);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()) {
+                user = fromResultSet(resultSet);
+            }
+            resultSet.close();
+            preparedStatement.close();
+            return user;
+        } catch (Exception ex) {
+            throw new DatabaseException(ex);
         }
-        resultSet.close();
-        preparedStatement.close();
-        return user;
     }
 
-    public User fromResulSet(ResultSet resultSet) throws SQLException {
-
+    private User fromResultSet(ResultSet resultSet) throws SQLException {
         User user = new User();
         user.setId(resultSet.getInt("id"));
         user.setName(resultSet.getString("name"));
         user.setSurname(resultSet.getString("surname"));
+        user.setCode(resultSet.getString("code"));
         user.setUsername(resultSet.getString("username"));
         user.setPassword(resultSet.getString("password"));
-        user.setCode(resultSet.getString("code"));
         user.setStatus(resultSet.getInt("status"));
         return user;
-
     }
+
     @Override
-    public void add(User user) throws SQLException {
-        Connection connection = dataSource.getConnection();
-        PreparedStatement preparedStatement = connection.prepareStatement("INSERT into user VALUES (0,?,?,?,?,?,?)");
-        preparedStatement.setString(1, user.getName());
-        preparedStatement.setString(2, user.getSurname());
-        preparedStatement.setString(3, user.getUsername());
-        preparedStatement.setString(4, user.getPassword());
-        preparedStatement.setString(5, user.getCode());
-        preparedStatement.setInt(6, user.getStatus());
+    public void add(User user) {
+        try {
+            Connection connection = dataSource.getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement("INSERT into user VALUES (0,?,?,?,?,?,?)");
+            preparedStatement.setString(1, user.getName());
+            preparedStatement.setString(2, user.getSurname());
+            preparedStatement.setString(3, user.getUsername());
+            preparedStatement.setString(4, user.getPassword());
+            preparedStatement.setString(5, user.getCode());
+            preparedStatement.setInt(6, user.getStatus());
 
-        int result = preparedStatement.executeUpdate();
-
-
-    }
-    @Override
-    public void delete(int id) throws SQLException {
-
-        User user = null;
-        Connection connection = dataSource.getConnection();
-        PreparedStatement preparedStatement = connection.prepareStatement("DELETE from user where id =?");
-        preparedStatement.setInt(1, id);
-        preparedStatement.execute();
-        preparedStatement.close();
-    }
-    @Override
-    public List<User> getAll() throws SQLException {
-
-        List<User> userList = new ArrayList<>();
-        Connection connection = dataSource.getConnection();
-        ResultSet resultSet = connection.createStatement().executeQuery("Select*from user ");
-
-
-        while (resultSet.next()) {
-            User user = fromResulSet(resultSet);
-            userList.add(user);
-
+            int result = preparedStatement.executeUpdate();
+        } catch (Exception ex) {
+            throw new DatabaseException(ex);
         }
-        resultSet.close();
-        return userList;
-
     }
+
     @Override
-    public User getByNameAndSurname(String name, String surname) throws SQLException {
+    public void delete(User user) {
+        try {
 
-        User user = null;
-
-        Connection connection = dataSource.getConnection();
-        PreparedStatement preparedStatement = connection.prepareStatement("SELECT*from user where name = ? and surname=?");
-        preparedStatement.setString(1, name);
-        preparedStatement.setString(2, surname);
-        ResultSet resultSet = preparedStatement.executeQuery();
-
-
-        if (resultSet.next()) {
-            user = fromResulSet(resultSet);
-
+            Connection connection = dataSource.getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement("DELETE from user where id =?");
+            preparedStatement.setInt(1, user.getId());
+            preparedStatement.execute();
+            preparedStatement.close();
+        } catch (Exception ex) {
+            throw new DatabaseException(ex);
         }
-        resultSet.close();
-        preparedStatement.close();
-        return user;
     }
+
     @Override
-    public List<User> FindByNameAndSurname(String name, String surname) throws SQLException {
-        List<User> userList1 = new ArrayList<>();
-        Connection connection = dataSource.getConnection();
-        PreparedStatement preparedStatement =
-                connection.prepareStatement("SELECT*from user where name LIKE (Concat('%',?,'%'))and surname LIKE  (Concat('%',?,'%'))");
-        preparedStatement.setString(1, name);
-        preparedStatement.setString(2, surname);
-        ResultSet resultSet = preparedStatement.executeQuery();
+    public List<User> getAll() {
+        try {
+
+            List<User> userList = new ArrayList<>();
+            Connection connection = dataSource.getConnection();
+            ResultSet resultSet = connection.createStatement().executeQuery("Select*from user ");
 
 
-        while (resultSet.next()) {
-            User user = fromResulSet(resultSet);
-            userList1.add(user);
+            while (resultSet.next()) {
+                User user = fromResultSet(resultSet);
+                userList.add(user);
 
+            }
+            resultSet.close();
+            return userList;
+
+        } catch (Exception ex) {
+            throw new DatabaseException(ex);
         }
-        resultSet.close();
-        preparedStatement.close();
-        return userList1;
     }
+
+    public User getByNameAndSurname(String name, String surname) {
+
+        try {
+
+            User user = null;
+
+            Connection connection = dataSource.getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement("SELECT*from user where name = ? and surname=?");
+            preparedStatement.setString(1, name);
+            preparedStatement.setString(2, surname);
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+
+            if (resultSet.next()) {
+                user = fromResultSet(resultSet);
+
+            }
+            resultSet.close();
+            preparedStatement.close();
+            return user;
+        } catch (Exception ex) {
+            throw new DatabaseException(ex);
+        }
+    }
+
     @Override
-    public User getByUsername(String username) throws SQLException {
-        User user = null;
-        Connection connection = dataSource.getConnection();
-        PreparedStatement preparedStatement = connection.prepareStatement("Select * from user where username =? ");
-        preparedStatement.setString(1, username);
+    public List<User> FindByNameAndSurname(String name, String surname) {
+        try {
+            List<User> userList1 = new ArrayList<>();
+            Connection connection = dataSource.getConnection();
+            PreparedStatement preparedStatement =
+                    connection.prepareStatement("SELECT*from user where name LIKE (Concat('%',?,'%'))and surname LIKE  (Concat('%',?,'%'))");
+            preparedStatement.setString(1, name);
+            preparedStatement.setString(2, surname);
+            ResultSet resultSet = preparedStatement.executeQuery();
 
-        ResultSet resultSet = preparedStatement.executeQuery();
-        if (resultSet.next()) {
-            user = fromResulSet(resultSet);
+
+            while (resultSet.next()) {
+                User user = fromResultSet(resultSet);
+                userList1.add(user);
+
+            }
+            resultSet.close();
+            preparedStatement.close();
+            return userList1;
+        } catch (Exception ex) {
+            throw new DatabaseException(ex);
         }
-        resultSet.close();
-        preparedStatement.close();
-        return user;
     }
 
+    @Override
+    public User getByUsername(String username) {
+        try {
+            User user = null;
+            Connection connection = dataSource.getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement("Select * from user where username =? ");
+            preparedStatement.setString(1, username);
 
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()) {
+                user = fromResultSet(resultSet);
+            }
+            resultSet.close();
+            preparedStatement.close();
+            return user;
+        } catch (Exception ex) {
+            throw new DatabaseException(ex);
+        }
+    }
+
+    @Override
+    public List<User> findByName(String name) {
+        try {
+            List<User> users = new ArrayList<>();
+            Connection connection = dataSource.getConnection();
+            PreparedStatement statement = connection.prepareStatement("Select * FROM user where name LIKE(CONCAT('%',?,'%'))");
+            statement.setString(1, name);
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                User user = fromResultSet(resultSet);
+                users.add(user);
+            }
+            resultSet.close();
+            statement.close();
+            return users;
+        } catch (Exception e) {
+            throw new DatabaseException(e);
+        }
+
+    }
 }
+

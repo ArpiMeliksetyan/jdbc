@@ -5,12 +5,14 @@ import am.basic.jdbcStart.model.User;
 import am.basic.jdbcStart.model.exceptions.InternalServerException;
 import am.basic.jdbcStart.model.exceptions.InvalidParametersException;
 import am.basic.jdbcStart.service.CommentService;
+import am.basic.jdbcStart.service.ServiceFactory;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.sql.SQLException;
 
 import static am.basic.jdbcStart.util.constants.Pages.HOME_PAGE;
 import static am.basic.jdbcStart.util.constants.ParameterKeys.*;
@@ -18,7 +20,7 @@ import static am.basic.jdbcStart.util.constants.ParameterKeys.MESSAGE_ATTRIBUTE_
 
 public class AddCommentServlet extends HttpServlet {
 
-    private CommentService commentService = new CommentService();
+    private CommentService commentService = ServiceFactory.getCommentService();
 
     public void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
@@ -37,7 +39,7 @@ public class AddCommentServlet extends HttpServlet {
             commentService.add(comment);
 
             response.sendRedirect(HOME_PAGE);
-        } catch (InvalidParametersException e) {
+        } catch (InvalidParametersException | SQLException e) {
             request.setAttribute(MESSAGE_ATTRIBUTE_KEY, e.getMessage());
             request.getRequestDispatcher(HOME_PAGE).forward(request, response);
         }

@@ -20,26 +20,34 @@ public class CommentRepositoryJdbcImpl implements CommentRepository {
     }
 
     @Override
-    public List<Comment> getByUserId(int userId) throws SQLException {
-        List<Comment> comments = new ArrayList<>();
-        PreparedStatement preparedStatement = dataSource.getConnection().prepareStatement("SELECT * FROM comment WHERE user_id = ?");
-        preparedStatement.setInt(1, userId);
-        ResultSet resultSet = preparedStatement.executeQuery();
-        while (resultSet.next()) {
-            Comment comment = fromResultSet(resultSet);
-            comments.add(comment);
-        }
+    public List<Comment> getByUserId(int userId) {
+        try {
+            List<Comment> comments = new ArrayList<>();
+            PreparedStatement preparedStatement = dataSource.getConnection().prepareStatement("SELECT * FROM comment WHERE user_id = ?");
+            preparedStatement.setInt(1, userId);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                Comment comment = fromResultSet(resultSet);
+                comments.add(comment);
+            }
 
-        return comments;
+            return comments;
+        } catch (Exception ex) {
+            throw new RuntimeException(ex);
+        }
     }
 
     @Override
-    public void save(Comment comment) throws SQLException {
-        PreparedStatement preparedStatement = dataSource.getConnection().prepareStatement("INSERT into comment(name,description,user_id) VALUES(?,?,?) ");
-        preparedStatement.setString(1, comment.getName());
-        preparedStatement.setString(2, comment.getDescription());
-        preparedStatement.setInt(3, comment.getUserId());
-        preparedStatement.execute();
+    public void save(Comment comment) {
+        try {
+            PreparedStatement preparedStatement = dataSource.getConnection().prepareStatement("INSERT into comment(name,description,user_id) VALUES(?,?,?) ");
+            preparedStatement.setString(1, comment.getName());
+            preparedStatement.setString(2, comment.getDescription());
+            preparedStatement.setInt(3, comment.getUserId());
+            preparedStatement.execute();
+        } catch (Exception ex) {
+            throw new RuntimeException(ex);
+        }
     }
 
     private Comment fromResultSet(ResultSet resultSet) throws SQLException {
@@ -52,10 +60,15 @@ public class CommentRepositoryJdbcImpl implements CommentRepository {
     }
 
     @Override
-    public void delete(int id) throws SQLException {
-        PreparedStatement preparedStatement = dataSource.getConnection().prepareStatement("DELETE FROM comment WHERE id = ?");
-        preparedStatement.setInt(1, id);
-        preparedStatement.executeUpdate();
+    public void delete(Comment comment) {
+        try {
+            PreparedStatement preparedStatement = dataSource.getConnection().prepareStatement("DELETE FROM comment WHERE id = ?");
+            preparedStatement.setInt(1, comment.getId());
+            preparedStatement.executeUpdate();
 
+        } catch (Exception ex) {
+            throw new RuntimeException(ex);
+        }
     }
+
 }
