@@ -2,11 +2,9 @@ package am.basic.jdbcStart.repository.Impl.jdbc;
 
 import am.basic.jdbcStart.model.Student;
 import am.basic.jdbcStart.model.exceptions.DatabaseException;
-import am.basic.jdbcStart.repository.Impl.jpa.StudentRepositroy;
 import am.basic.jdbcStart.repository.StudentRepository;
 import am.basic.jdbcStart.util.DataSource;
 
-import javax.xml.crypto.Data;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;

@@ -7,7 +7,7 @@ import am.basic.jdbcStart.repository.Impl.jpa.UserRepositoryJpaImpl;
 import am.basic.jdbcStart.util.DataSource;
 
 public class ServiceFactory {
-    private static boolean usJpa = false;
+    private static boolean usJpa = true;
 
     public static UserService getUserService() {
         if (usJpa) {

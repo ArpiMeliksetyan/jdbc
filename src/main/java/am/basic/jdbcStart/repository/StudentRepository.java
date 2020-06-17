@@ -7,13 +7,13 @@ import java.util.List;
 
 public interface StudentRepository {
 
-    void update(Student Student) throws SQLException;
+    void update(Student student) throws SQLException;
 
     void add(Student student) throws SQLException;
 
     Student getById(int id) throws SQLException;
 
-    void delete(int id) throws SQLException;
+    void delete(Student student) throws SQLException;
 
     Student getByNameAndSurname(String name, String surname) throws SQLException;
 
