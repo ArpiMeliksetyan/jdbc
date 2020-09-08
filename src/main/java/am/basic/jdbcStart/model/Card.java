@@ -1,6 +1,5 @@
 package am.basic.jdbcStart.model;
 
-import am.basic.jdbcStart.util.DataSource;
 
 import java.util.Objects;
 

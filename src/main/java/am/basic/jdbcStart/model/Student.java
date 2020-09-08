@@ -1,82 +1,45 @@
 package am.basic.jdbcStart.model;
 
+import lombok.Data;
+
 import javax.persistence.*;
+import java.util.List;
 import java.util.Objects;
 
+@Data
 @Entity
 public class Student {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+
     private String name;
+
     private String surname;
+
     @Column(nullable = false)
     private int balance;
 
+    @OneToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "faculty_id", referencedColumnName = "id")
+    private Faculty faculty;
 
-    public Student() {
-        this.id = id;
-        this.name = name;
-        this.surname = surname;
-        this.balance = balance;
-    }
+    @OneToMany(fetch = FetchType.LAZY)
+    @JoinColumn(name = "student_id", referencedColumnName = "id")
+    private List<Book> books;
 
-    public int getId() {
-        return id;
-    }
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "teachersandstudents",
+            joinColumns = @JoinColumn(name = "student_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "teacher_id", referencedColumnName = "id"))
+    private List<Teacher> teachers;
 
-    public void setId(int id) {
-        this.id = id;
-    }
+    @Transient /*ignora anuum u bazaywum tox chi avelacnwum*/
+    private String test;
 
-    public String getName() {
-        return name;
-    }
+    @Enumerated(value = EnumType.ORDINAL)
+    private StudentType studentType;
 
-    public void setName(String name) {
-        this.name = name;
-    }
 
-    public String getSurname() {
-        return surname;
-    }
-
-    public void setSurname(String surname) {
-        this.surname = surname;
-    }
-
-    public int getBalance() {
-        return balance;
-    }
-
-    public void setBalance(int balance) {
-        this.balance = balance;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Student student = (Student) o;
-        return id == student.id &&
-                balance == student.balance &&
-                Objects.equals(name, student.name) &&
-                Objects.equals(surname, student.surname);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, name, surname, balance);
-    }
-
-    @Override
-    public String toString() {
-        return "Student{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", surname='" + surname + '\'' +
-                ", balance=" + balance +
-                '}';
-    }
 }
 

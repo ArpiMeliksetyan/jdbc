@@ -1,7 +1,13 @@
 package am.basic.jdbcStart.repository.Impl.jdbc;
+
 import am.basic.jdbcStart.model.User;
 import am.basic.jdbcStart.model.exceptions.DatabaseException;
-import am.basic.jdbcStart.util.DataSource;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Primary;
+import org.springframework.stereotype.Repository;
+
+
+import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -9,16 +15,24 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+@Repository
+@Primary
 public class UserRepositoryJdbcImpl implements am.basic.jdbcStart.repository.UserRepository {
 
     private DataSource dataSource;
 
+    @Autowired
     public UserRepositoryJdbcImpl(DataSource dataSource) {
         this.dataSource = dataSource;
     }
 
+    public void init() {
+        System.out.println("creating user repository jdbc");
+    }
+
+
     @Override
-    public void update(User user){
+    public void update(User user) {
         try {
             Connection connection = dataSource.getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement("UPDATE  USER  SET name= ?, surname=?, username=?, password=?, code=?, status=? where id=?");
@@ -58,7 +72,7 @@ public class UserRepositoryJdbcImpl implements am.basic.jdbcStart.repository.Use
     }
 
     @Override
-    public User getByUsernameAndPassword(String username, String password){
+    public User getByUsernameAndPassword(String username, String password) {
         try {
             User user = null;
             Connection connection = dataSource.getConnection();

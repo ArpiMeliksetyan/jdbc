@@ -2,8 +2,9 @@ package am.basic.jdbcStart.repository.Impl.jdbc;
 
 import am.basic.jdbcStart.model.Comment;
 import am.basic.jdbcStart.repository.CommentRepository;
-import am.basic.jdbcStart.util.DataSource;
 
+
+import javax.sql.DataSource;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -15,9 +16,6 @@ public class CommentRepositoryJdbcImpl implements CommentRepository {
 
     private DataSource dataSource;
 
-    public CommentRepositoryJdbcImpl(DataSource dataSource) {
-        this.dataSource = dataSource;
-    }
 
     @Override
     public List<Comment> getByUserId(int userId) {
@@ -71,4 +69,11 @@ public class CommentRepositoryJdbcImpl implements CommentRepository {
         }
     }
 
+    public DataSource getDataSource() {
+        return dataSource;
+    }
+
+    public void setDataSource(DataSource dataSource) {
+        this.dataSource = dataSource;
+    }
 }

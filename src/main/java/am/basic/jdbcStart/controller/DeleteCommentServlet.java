@@ -16,28 +16,30 @@ import static am.basic.jdbcStart.util.constants.Pages.HOME_PAGE;
 import static am.basic.jdbcStart.util.constants.ParameterKeys.ID_PARAM_KEY;
 import static am.basic.jdbcStart.util.constants.ParameterKeys.MESSAGE_ATTRIBUTE_KEY;
 
-public class DeleteCommentServlet extends HttpServlet {
+//public class DeleteCommentServlet extends HttpServlet {
+//
 
-    private CommentService commentService = ServiceFactory.getCommentService();
-    private Comment comment;
 
-    public void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
-        String idString = request.getParameter(ID_PARAM_KEY);
-
-        try {
-            Comment comment= new Comment();
-            comment.setId(9);
-            commentService.delete(comment);
-
-            response.sendRedirect(HOME_PAGE);
-        } catch (RuntimeException e) {
-            request.setAttribute(MESSAGE_ATTRIBUTE_KEY, e.getMessage());
-            request.getRequestDispatcher(HOME_PAGE).forward(request, response);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-    }
-
-}
+//    private CommentService commentService = ServiceFactory.getCommentService();
+//    private Comment comment;
+//
+//    public void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+//
+//        String idString = request.getParameter(ID_PARAM_KEY);
+//        int i = Integer.parseInt (idString);
+//        try {
+//            Comment comment= new Comment();
+//            comment.setId(i);
+//            commentService.delete(comment);
+//
+//            response.sendRedirect(HOME_PAGE);
+//        } catch (RuntimeException e) {
+//            request.setAttribute(MESSAGE_ATTRIBUTE_KEY, e.getMessage());
+//            request.getRequestDispatcher(HOME_PAGE).forward(request, response);
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//        }
+//
+//    }
+//
+//}

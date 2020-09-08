@@ -6,14 +6,21 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.query.NativeQuery;
 import org.hibernate.query.Query;
+import org.springframework.stereotype.Repository;
+
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import java.util.List;
 
+@Repository
 public class UserRepositoryJpaImpl implements UserRepository {
 
     private SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
+
+    public void init(){
+        System.out.println("creating user repository jpa");
+    }
 
 
     @Override
@@ -95,7 +102,7 @@ public class UserRepositoryJpaImpl implements UserRepository {
     @Override
     public List<User> findByName(String name) {
 
-            String query = "SELECT * FROM user WHERE name = :nameParameter";
+            String query = "SELECT * FROM user WHERE name LIKE(CONCAT('%',:nameParameter,'%'))";
             Session session = sessionFactory.openSession();
             NativeQuery<User> nativeQuery = session.createNativeQuery(query, User.class);
             nativeQuery.setParameter("nameParameter", name);

@@ -18,33 +18,33 @@ import static am.basic.jdbcStart.util.constants.Pages.HOME_PAGE;
 import static am.basic.jdbcStart.util.constants.ParameterKeys.*;
 import static am.basic.jdbcStart.util.constants.ParameterKeys.MESSAGE_ATTRIBUTE_KEY;
 
-public class AddCommentServlet extends HttpServlet {
-
-    private CommentService commentService = ServiceFactory.getCommentService();
-
-    public void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
-        String name = request.getParameter(NAME_PARAM_KEY);
-        String description = request.getParameter(DESCRIPTION_PARAM_KEY);
-
-        try {
-            InvalidParametersException.check(name == null, "Please write something in name field");
-            User user = (User) request.getSession().getAttribute(USER_ATTRIBUTE_KEY);
-
-            Comment comment = new Comment();
-            comment.setName(name);
-            comment.setDescription(description);
-            comment.setUserId(user.getId());
-
-            commentService.add(comment);
-
-            response.sendRedirect(HOME_PAGE);
-        } catch (InvalidParametersException | SQLException e) {
-            request.setAttribute(MESSAGE_ATTRIBUTE_KEY, e.getMessage());
-            request.getRequestDispatcher(HOME_PAGE).forward(request, response);
-        }
-
-    }
-
-}
+//public class AddCommentServlet extends HttpServlet {
+//
+//    private CommentService commentService = ServiceFactory.getCommentService();
+//
+//    public void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+//
+//        String name = request.getParameter(NAME_PARAM_KEY);
+//        String description = request.getParameter(DESCRIPTION_PARAM_KEY);
+//
+//        try {
+//            InvalidParametersException.check(name == null, "Please write something in name field");
+//            User user = (User) request.getSession().getAttribute(USER_ATTRIBUTE_KEY);
+//
+//            Comment comment = new Comment();
+//            comment.setName(name);
+//            comment.setDescription(description);
+//            comment.setUserId(user.getId());
+//
+//            commentService.add(comment);
+//
+//            response.sendRedirect(HOME_PAGE);
+//        } catch (InvalidParametersException | SQLException e) {
+//            request.setAttribute(MESSAGE_ATTRIBUTE_KEY, e.getMessage());
+//            request.getRequestDispatcher(HOME_PAGE).forward(request, response);
+//        }
+//
+//    }
+//
+//}
 

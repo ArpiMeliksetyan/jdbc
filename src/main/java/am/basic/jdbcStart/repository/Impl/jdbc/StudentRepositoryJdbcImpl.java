@@ -3,8 +3,9 @@ package am.basic.jdbcStart.repository.Impl.jdbc;
 import am.basic.jdbcStart.model.Student;
 import am.basic.jdbcStart.model.exceptions.DatabaseException;
 import am.basic.jdbcStart.repository.StudentRepository;
-import am.basic.jdbcStart.util.DataSource;
 
+
+import javax.sql.DataSource;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -76,20 +77,19 @@ public class StudentRepositoryJdbcImpl implements StudentRepository {
         }
     }
 
-    public void delete(int id) {
-        try {
 
-            Student student = null;
+    public void delete(Student student) {
+        try {
             Connection connection = dataSource.getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement("DELETE from student where id =?");
-            preparedStatement.setInt(1, id);
+            preparedStatement.setInt(1, student.getId());
             preparedStatement.execute();
             preparedStatement.close();
-
         } catch (Exception ex) {
             throw new DatabaseException(ex);
         }
     }
+
 
     public Student getByNameAndSurname(String name, String surname) {
         try {
@@ -171,15 +171,13 @@ public class StudentRepositoryJdbcImpl implements StudentRepository {
     }
 
     public void transfer(Student from, Student to, int amount) throws SQLException {
-        Connection connection = dataSource.getConnection();
-        connection.setAutoCommit(false);
-
+        Connection connection = null;
         try {
+            connection = dataSource.getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement("UPDATE  student set  balance=? where id =?");
             preparedStatement.setInt(1, from.getBalance() - amount);
             preparedStatement.setInt(2, from.getId());
             preparedStatement.executeUpdate();
-
 
             preparedStatement = connection.prepareStatement("UPDATE  student set  balance=? where id =?");
             preparedStatement.setInt(1, to.getBalance() + amount);

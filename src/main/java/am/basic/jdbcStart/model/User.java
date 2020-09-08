@@ -3,6 +3,7 @@ package am.basic.jdbcStart.model;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -18,7 +19,7 @@ public class User {
     @NotBlank
     private String surname;
     @NotBlank
-    @Size(min=5)
+    @Size(min = 5)
     @Column(name = "username", nullable = false, unique = true)
     private String username;
 
@@ -29,6 +30,11 @@ public class User {
     private String code;
     @Column(name = "status", nullable = false)
     private int status;
+
+    @OneToMany(fetch = FetchType.EAGER)
+    @JoinColumn(name = "user_Id", referencedColumnName = "id")
+    public List<Comment> comments;
+
 
     public int getId() {
         return id;
@@ -95,14 +101,15 @@ public class User {
                 status == user.status &&
                 Objects.equals(name, user.name) &&
                 Objects.equals(surname, user.surname) &&
-                Objects.equals(code, user.code) &&
                 Objects.equals(username, user.username) &&
-                Objects.equals(password, user.password);
+                Objects.equals(password, user.password) &&
+                Objects.equals(code, user.code) &&
+                Objects.equals(comments, user.comments);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, surname, code, username, password, status);
+        return Objects.hash(id, name, surname, username, password, code, status, comments);
     }
 
     @Override
@@ -111,10 +118,11 @@ public class User {
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", surname='" + surname + '\'' +
-                ", code='" + code + '\'' +
                 ", username='" + username + '\'' +
                 ", password='" + password + '\'' +
+                ", code='" + code + '\'' +
                 ", status=" + status +
+                ", comments=" + comments +
                 '}';
     }
 }

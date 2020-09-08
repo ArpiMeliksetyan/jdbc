@@ -1,8 +1,9 @@
 package am.basic.jdbcStart.repository.Impl.jdbc;
 
 import am.basic.jdbcStart.model.Card;
-import am.basic.jdbcStart.util.DataSource;
 
+
+import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
